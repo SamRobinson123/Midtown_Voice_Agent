@@ -8,7 +8,7 @@ UPFH Virtual Front Desk – baby‑blue embedded widget (Gradio 4.x)
 
 import os, functools
 import gradio as gr
-from upfh_bot.chatbot import chat                # ← your existing LLM function
+from bot.chatbot import chat                # ← your existing LLM function
 
 # ── 🎨  BRAND & TEXT SETTINGS ───────────────────────────────────────────────
 BRAND_BLUE   = "#8EC9FF"   # header & launcher colour
@@ -19,7 +19,7 @@ BUBBLE_BOT   = "#FFFFFF"
 MAX_WIDTH_PX = 380
 
 WELCOME_MSG = (
-    "👋 **Hi! I’m the UPFH Virtual Front Desk.**\n\n"
+    "👋 **Hi! I’m the Midtown Community Health Center Virtual Front Desk.**\n\n"
     "_How can I help today?_"
 )
 
