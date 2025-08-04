@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # ----- Project code -----
 COPY backend/   ./backend/
-COPY upfh_bot/  ./upfh_bot/
+COPY bot/  ./bot/
 
 ENV PYTHONUNBUFFERED=1
 
