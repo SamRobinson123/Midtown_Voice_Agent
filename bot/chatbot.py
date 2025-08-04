@@ -236,11 +236,12 @@ def create_calendar_event(
 # 3 ► TF‑IDF SEARCH & SUMMARY (trimmed but full‑function)
 # ══════════════════════════════════════════════════════════════════════
 MODEL = "gpt-4o-mini"
-SEED_URLS = ["https://www.upfh.org/",
-             "https://www.upfh.org/locations",
-             "https://www.upfh.org/providers",
-             "https://www.upfh.org/pharmacy",
-             "https://www.upfh.org/dental"]
+SEED_URLS = ["https://www.midtownchc.org/",
+             "https://www.midtownchc.org/locations/",
+             "https://www.midtownchc.org/services/medical/",
+             "https://www.midtownchc.org/find-a-provider",
+             "https://www.midtownchc.org/about-us/our-mission/",
+             "https://www.midtownchc.org/information/"]
 MAX_PAGES = 500
 SITE_CACHE: Dict[str, str] = {}
 VECT = DOC_EMB = DOC_URLS = None
@@ -405,76 +406,76 @@ def estimate_fee(income:float,family_size:int,procedure:str="Office Visit")->Dic
 def list_upfh_services()->List[str]:
     return sorted(FEE_TABLE.keys())
 
-# ══════════════════════════════════════════════════════════════════════
-# 5 ► LOCATION LOOK‑UP
-# ══════════════════════════════════════════════════════════════════════
-UPFH_LOCATIONS = {
-    "family_clinic": {
-        "name": "UPFH Family Clinic – West Jordan",
-        "address": "9103 S 1300 W Suite 102, West Jordan, UT 84088",
-        "hours": {
-            "Mon": "8 am – 5 30 pm",
-            "Tue": "8 am – 5 30 pm",
-            "Wed": "8 am – 5 30 pm",
-            "Thu": "8 am – 8 pm",
-            "Fri": "8 am – 5 30 pm",
-            "Sat": "9 am – 1 pm",
-            "Sun": "Closed",
-        },
-        "phone": "801‑417‑0131",
-    },
+# # ══════════════════════════════════════════════════════════════════════
+# # 5 ► LOCATION LOOK‑UP
+# # ══════════════════════════════════════════════════════════════════════
+# UPFH_LOCATIONS = {
+#     "family_clinic": {
+#         "name": "UPFH Family Clinic – West Jordan",
+#         "address": "9103 S 1300 W Suite 102, West Jordan, UT 84088",
+#         "hours": {
+#             "Mon": "8 am – 5 30 pm",
+#             "Tue": "8 am – 5 30 pm",
+#             "Wed": "8 am – 5 30 pm",
+#             "Thu": "8 am – 8 pm",
+#             "Fri": "8 am – 5 30 pm",
+#             "Sat": "9 am – 1 pm",
+#             "Sun": "Closed",
+#         },
+#         "phone": "801‑417‑0131",
+#     },
 
-    "mid_valley": {
-        "name": "UPFH Mid‑Valley Clinic",
-        "address": "8446 S Harrison Street, Midvale, UT 84047",
-        "hours": {
-            "Mon": "8 am – 5 pm",
-            "Tue": "8 am – 5 pm",
-            "Wed": "8 am – 5 pm",
-            "Thu": "12 pm – 8 pm",
-            "Fri‑Sun": "Closed",
-        },
-        "phone": "801‑417‑0131",
-    },
+#     "mid_valley": {
+#         "name": "UPFH Mid‑Valley Clinic",
+#         "address": "8446 S Harrison Street, Midvale, UT 84047",
+#         "hours": {
+#             "Mon": "8 am – 5 pm",
+#             "Tue": "8 am – 5 pm",
+#             "Wed": "8 am – 5 pm",
+#             "Thu": "12 pm – 8 pm",
+#             "Fri‑Sun": "Closed",
+#         },
+#         "phone": "801‑417‑0131",
+#     },
 
-    "dental": {
-        "name": "UPFH Dental",
-        "address": "7651 S Main Street, Midvale, UT 84047",
-        "hours": {
-            "Mon": "8 am – 12 pm • 1 pm – 5 pm",
-            "Tue": "8 am – 12 pm • 1 pm – 5 pm",
-            "Wed": "8 am – 12 pm • 1 pm – 5 pm",
-            "Thu": "8 am – 12 pm • 1 pm – 5 pm",
-            "Fri": "9 am – 12 pm • 1 pm – 4 pm",
-            "Sat‑Sun": "Closed",
-        },
-        "phone": "801‑417‑0131",
-    },
+#     "dental": {
+#         "name": "UPFH Dental",
+#         "address": "7651 S Main Street, Midvale, UT 84047",
+#         "hours": {
+#             "Mon": "8 am – 12 pm • 1 pm – 5 pm",
+#             "Tue": "8 am – 12 pm • 1 pm – 5 pm",
+#             "Wed": "8 am – 12 pm • 1 pm – 5 pm",
+#             "Thu": "8 am – 12 pm • 1 pm – 5 pm",
+#             "Fri": "9 am – 12 pm • 1 pm – 4 pm",
+#             "Sat‑Sun": "Closed",
+#         },
+#         "phone": "801‑417‑0131",
+#     },
 
-    "pharmacy": {
-        "name": "UPFH Pharmacy",
-        "address": "9103 S 1300 W Suite 102, West Jordan, UT 84088",
-        "hours": {
-            "Mon": "8 30 am – 5 30 pm",
-            "Tue": "8 30 am – 5 30 pm",
-            "Wed": "8 30 am – 5 30 pm",
-            "Thu": "8 30 am – 8 pm",
-            "Sat": "9 am – 1 pm",
-            "Sun": "Closed",
-        },
-        "phone": "801‑417‑0131",
-    },
+#     "pharmacy": {
+#         "name": "UPFH Pharmacy",
+#         "address": "9103 S 1300 W Suite 102, West Jordan, UT 84088",
+#         "hours": {
+#             "Mon": "8 30 am – 5 30 pm",
+#             "Tue": "8 30 am – 5 30 pm",
+#             "Wed": "8 30 am – 5 30 pm",
+#             "Thu": "8 30 am – 8 pm",
+#             "Sat": "9 am – 1 pm",
+#             "Sun": "Closed",
+#         },
+#         "phone": "801‑417‑0131",
+#     },
 
-    "mobile_medical": {
-        "name": "Mobile Medical Clinic (weekly schedule)",
-        "schedule": [
-            {"date": "07/15/2025", "site": "UNP Hartland, 1578 W 1700 S, Salt Lake City UT 84104", "start": "8 30 am"},
-            {"date": "07/16/2025", "site": "UNP Hartland, 1578 W 1700 S, Salt Lake City UT 84104", "start": "8 30 am"},
-            {"date": "07/17/2025", "site": "Orange Street Clinic, 80 N Orange Street, Salt Lake City UT 84116", "start": "1 00 pm"},
-        ],
-        "phone": "801‑417‑0131 ext 123",
-    },
-}
+#     "mobile_medical": {
+#         "name": "Mobile Medical Clinic (weekly schedule)",
+#         "schedule": [
+#             {"date": "07/15/2025", "site": "UNP Hartland, 1578 W 1700 S, Salt Lake City UT 84104", "start": "8 30 am"},
+#             {"date": "07/16/2025", "site": "UNP Hartland, 1578 W 1700 S, Salt Lake City UT 84104", "start": "8 30 am"},
+#             {"date": "07/17/2025", "site": "Orange Street Clinic, 80 N Orange Street, Salt Lake City UT 84116", "start": "1 00 pm"},
+#         ],
+#         "phone": "801‑417‑0131 ext 123",
+#     },
+# }
 
 def lookup_location(keyword:str)->Dict[str,Any]:
     kw=keyword.lower().strip()
@@ -579,7 +580,7 @@ email_tool = {
 }
 
 TOOLS = [
-    {"type":"function","function":location_tool},
+    # {"type":"function","function":location_tool},
     {"type":"function","function":site_tool},
     {"type":"function","function":site_summary_tool},
     {"type":"function","function":services_tool},
@@ -595,9 +596,8 @@ TOOLS = [
 # 7 ► SYSTEM PROMPT
 # ══════════════════════════════════════════════════════════════════════
 SYSTEM_PROMPT = (
-"### UPFH Virtual Front‑Desk Assistant\n"
+"### Midtown Community Health Center Virtual Front‑Desk Assistant\n"
 "#### TOOLS\n"
-"• upfh_location_lookup – address & hours\n"
 "• upfh_site_search / upfh_site_summary – website info\n"
 "• list_upfh_services / estimate_fee – sliding‑fee\n"
 "• check_calendar_availability – list free slots\n"
@@ -615,7 +615,7 @@ SYSTEM_PROMPT = (
 )
 
 WELCOME_BUBBLE = (
-"👋 **Welcome to the UPFH Virtual Front Desk!**\n\n"
+"👋 **Welcome to the Midtown Community Health Center Virtual Front Desk!**\n\n"
 "• Book or reschedule an appointment (with live calendar)\n"
 "• Estimate costs on our sliding‑fee scale\n"
 "• Clinic hours, locations & provider info\n\n"
@@ -633,9 +633,7 @@ def _handle_tool_call(msg):
         except Exception as exc:
             logging.exception("Bad JSON for %s: %s",fn,exc); args={}
         try:
-            if fn=="upfh_location_lookup":
-                res=lookup_location(**args)
-            elif fn=="upfh_site_search":
+            if fn=="upfh_site_search":
                 res=search_upfh(**args)
             elif fn=="upfh_site_summary":
                 res=summarise_upfh(**args)

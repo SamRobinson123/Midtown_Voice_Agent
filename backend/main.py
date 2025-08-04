@@ -14,7 +14,7 @@ try:
 except ModuleNotFoundError:
     pass
 
-from upfh_bot.chatbot import chat
+from bot.chatbot import chat
 from .gradio_app import build_widget
 
 # ───────────────────────────────────
